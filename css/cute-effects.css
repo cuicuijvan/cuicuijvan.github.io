@@ -1,0 +1,448 @@
+/* ============================================================
+   脆脆卷的博客 - 自定义美化样式
+   纯 CSS / 无外部依赖；配合 source/js/cute-effects.js 使用
+   ============================================================ */
+
+:root {
+  --cute-pink: #ff8fab;
+  --cute-pink-soft: #ffc2d3;
+  --cute-blue: #7ec8f2;
+  --cute-purple: #c3a6ff;
+  --cute-card: rgba(255, 255, 255, .93);
+  --cute-card-dark: rgba(40, 40, 56, .90);
+  --cute-shadow: 0 10px 32px rgba(178, 138, 168, .16);
+}
+
+/* ------------------------------------------------------------
+   1. 背景：柔和渐变 + 光斑缓慢漂移（明暗两套）
+   ------------------------------------------------------------ */
+body {
+  background-color: var(--body-bg-color, #fff);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 173, 196, .40), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(146, 208, 255, .36), transparent 32%),
+    radial-gradient(circle at 74% 86%, rgba(197, 170, 255, .32), transparent 34%),
+    radial-gradient(circle at 22% 82%, rgba(255, 224, 166, .30), transparent 30%),
+    linear-gradient(135deg, #fff7fa 0%, #f2f9ff 46%, #faf4ff 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 130% 130%;
+  animation: cute-bg-drift 22s ease-in-out infinite alternate;
+  transition: opacity .45s ease;
+}
+
+@keyframes cute-bg-drift {
+  from { background-position: 0% 0%; }
+  to   { background-position: 100% 70%; }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(255, 120, 160, .20), transparent 34%),
+      radial-gradient(circle at 88% 12%, rgba(80, 150, 230, .22), transparent 32%),
+      radial-gradient(circle at 74% 86%, rgba(150, 110, 230, .22), transparent 34%),
+      linear-gradient(135deg, #1b1a26 0%, #17212e 48%, #241c2e 100%);
+  }
+}
+
+/* ------------------------------------------------------------
+   2. 内容区放大（覆盖 NexT Muse 默认 700px / 16px）
+   ------------------------------------------------------------ */
+body { font-size: 17px; }
+
+.site-title { font-size: 1.6em; }
+
+.main-inner,
+.footer-inner { width: 1000px; }
+
+@media (max-width: 991px) {
+  .main-inner,
+  .footer-inner { width: auto; }
+}
+@media (min-width: 1200px) {
+  .main-inner,
+  .footer-inner { width: 1180px; }
+}
+@media (min-width: 1600px) {
+  .main-inner,
+  .footer-inner { width: 1320px; }
+}
+
+/* ------------------------------------------------------------
+   3. 毛玻璃卡片 + 悬停轻浮
+   ------------------------------------------------------------ */
+.post-block {
+  background: var(--cute-card) !important;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: 26px;
+  box-shadow: var(--cute-shadow);
+  /* NexT Muse 默认给首块 70px 顶部留白，这里收掉，把框撑满内容 */
+  padding: 42px 48px;
+  margin: 0 0 32px;
+  transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+}
+.post-block:first-of-type { padding-top: 42px; }
+.post-block:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 44px rgba(178, 138, 168, .24);
+}
+@media (max-width: 767px) {
+  .post-block { padding: 26px 22px; margin-bottom: 22px; }
+  .post-block:first-of-type { padding-top: 26px; }
+}
+@media (prefers-color-scheme: dark) {
+  .post-block {
+    background: var(--cute-card-dark) !important;
+    border-color: rgba(255, 255, 255, .08);
+  }
+}
+
+/* 侧栏、页脚也统一圆角质感 */
+.sidebar-inner,
+.footer-inner { border-radius: 16px; }
+
+/* ------------------------------------------------------------
+   4. 开场动画（关键样式同时内联在 head.njk 防止闪烁）
+   ------------------------------------------------------------ */
+html.cute-loading body { visibility: hidden; }
+
+#cute-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  visibility: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #fff5f8 0%, #eef7ff 50%, #f8f0ff 100%);
+  transition: opacity .8s ease, transform .8s ease;
+}
+@media (prefers-color-scheme: dark) {
+  #cute-intro { background: linear-gradient(135deg, #211d2b 0%, #182433 50%, #291f33 100%); }
+}
+#cute-intro.is-hidden {
+  opacity: 0;
+  transform: translateY(-24px);
+  pointer-events: none;
+}
+.cute-intro-inner { width: min(320px, 76vw); }
+
+.cute-intro-mark {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 26px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--cute-pink), var(--cute-purple));
+  box-shadow: 0 10px 26px rgba(255, 143, 171, .38);
+  animation: cute-mark 1.6s ease-in-out infinite;
+}
+@keyframes cute-mark {
+  0%, 100% { transform: rotate(-8deg) scale(1); border-radius: 18px; }
+  50%      { transform: rotate(8deg) scale(1.08); border-radius: 26px; }
+}
+
+.cute-intro-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #5a4a55;
+  animation: cute-fade-up .7s ease both;
+}
+.cute-intro-sub {
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: #a08f9b;
+  animation: cute-fade-up .7s .12s ease both;
+}
+@media (prefers-color-scheme: dark) {
+  .cute-intro-title { color: #f0e8ee; }
+  .cute-intro-sub { color: #9a8fa0; }
+}
+.cute-intro-bar {
+  margin: 28px auto 0;
+  height: 4px;
+  width: 100%;
+  border-radius: 4px;
+  background: rgba(180, 150, 170, .22);
+  overflow: hidden;
+}
+.cute-intro-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--cute-pink), var(--cute-purple), var(--cute-blue));
+  animation: cute-loading-bar 1.1s cubic-bezier(.3, .8, .4, 1) forwards;
+}
+@keyframes cute-loading-bar { to { width: 100%; } }
+@keyframes cute-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* 开场结束后标题 / 副标题弹入 */
+body.cute-ready .site-title { animation: cute-pop .75s cubic-bezier(.2, 1.35, .4, 1) both; }
+body.cute-ready .site-subtitle { animation: cute-pop .75s .1s cubic-bezier(.2, 1.35, .4, 1) both; }
+@keyframes cute-pop {
+  from { opacity: 0; transform: translateY(-14px) scale(.9); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------------------
+   5. 樱花飘落画布（浮于最上层，不拦截鼠标）
+   ------------------------------------------------------------ */
+#cute-sakura {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   6. 鼠标点击：文字 + 散开的小光点
+   ------------------------------------------------------------ */
+.cute-click-word {
+  position: fixed;
+  z-index: 100002;
+  pointer-events: none;
+  white-space: nowrap;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(255, 255, 255, .9), 0 0 14px rgba(255, 255, 255, .6);
+  animation: cute-word-up 1.15s cubic-bezier(.2, .8, .3, 1) forwards;
+}
+@keyframes cute-word-up {
+  0%   { opacity: 0; transform: translate(-50%, 0) scale(.55); }
+  18%  { opacity: 1; transform: translate(-50%, -16px) scale(1.12); }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -96px) scale(1); }
+}
+.cute-spark {
+  position: fixed;
+  z-index: 100001;
+  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: cute-spark-fly .78s ease-out forwards;
+}
+@keyframes cute-spark-fly {
+  from { opacity: .95; transform: translate(-50%, -50%) scale(1); }
+  to   { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.15); }
+}
+
+/* ------------------------------------------------------------
+   7. 鼠标跟随的小光点
+   ------------------------------------------------------------ */
+.cute-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  pointer-events: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 143, 171, .85), rgba(255, 143, 171, 0) 70%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  will-change: transform;
+}
+.cute-cursor.is-active { opacity: 1; }
+
+/* ------------------------------------------------------------
+   8. 其它小动画 / 细节
+   ------------------------------------------------------------ */
+/* 菜单项悬停轻轻弹起 */
+.menu-item a {
+  transition: transform .25s cubic-bezier(.2, 1.4, .4, 1), color .25s ease;
+}
+.menu-item a:hover { transform: translateY(-3px) scale(1.06); }
+
+/* 文章标题链接的划线扫过 */
+.post-title-link,
+.article-title {
+  transition: color .25s ease;
+}
+
+/* 回到顶部按钮悬停转一下 */
+.back-to-top {
+  transition: transform .35s cubic-bezier(.2, 1.3, .4, 1), background .25s ease;
+}
+.back-to-top:hover { transform: translateY(-3px) rotate(-8deg); }
+
+/* 侧栏头像缓慢呼吸 */
+.site-author-image { animation: cute-breathe 4s ease-in-out infinite; }
+@keyframes cute-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 143, 171, .35); }
+  50%      { box-shadow: 0 0 0 8px rgba(255, 143, 171, 0); }
+}
+
+/* 选中的文字、滚动条 */
+::selection { background: rgba(255, 143, 171, .32); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--cute-pink), var(--cute-purple));
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ------------------------------------------------------------
+   9. 常驻首页门面（Hero）
+   元素由 body-end.njk 输出、JS 只在首页插入 .main-inner 顶部，
+   因此其它页面完全不会出现（未插入时 display: none，不会闪烁）。
+   ------------------------------------------------------------ */
+.cute-hero { display: none; }
+
+.main-inner > .cute-hero {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin: 34px 0 38px;
+  padding: 54px 58px;
+  min-height: 270px;
+  border-radius: 30px;
+  background: linear-gradient(120deg, rgba(255, 255, 255, .96), rgba(255, 244, 250, .92) 46%, rgba(236, 246, 255, .93));
+  border: 1px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 20px 50px rgba(170, 130, 165, .20);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: cute-hero-in .9s .15s cubic-bezier(.2, .9, .3, 1) both;
+}
+@keyframes cute-hero-in {
+  from { opacity: 0; transform: translateY(22px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+.main-inner > .cute-hero::before,
+.main-inner > .cute-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.main-inner > .cute-hero::before {
+  width: 380px; height: 380px;
+  right: -110px; top: -160px;
+  background: radial-gradient(circle, rgba(255, 143, 171, .30), transparent 65%);
+}
+.main-inner > .cute-hero::after {
+  width: 300px; height: 300px;
+  left: -120px; bottom: -190px;
+  background: radial-gradient(circle, rgba(126, 200, 242, .26), transparent 65%);
+}
+
+.cute-hero-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 42px;
+}
+.cute-hero-avatar {
+  flex: 0 0 auto;
+  width: 132px;
+  height: 132px;
+  padding: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cute-pink), var(--cute-purple), var(--cute-blue));
+  box-shadow: 0 12px 30px rgba(255, 143, 171, .32);
+  animation: cute-hero-float 5s ease-in-out infinite;
+}
+.cute-hero-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #fff;
+}
+@keyframes cute-hero-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+
+.cute-hello {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #d4608a;
+  background: rgba(255, 143, 171, .16);
+}
+.cute-hero-title {
+  margin: 16px 0 10px;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.3;
+  color: #5a4a55;
+}
+.cute-hero-desc {
+  margin: 0;
+  max-width: 620px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #857683;
+}
+.cute-hero-links {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cute-hero-links a {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #b3537c;
+  background: rgba(255, 255, 255, .75);
+  border: 1px solid rgba(255, 143, 171, .35);
+  transition: transform .25s cubic-bezier(.2, 1.4, .4, 1), box-shadow .25s ease;
+}
+.cute-hero-links a:first-child {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--cute-pink), var(--cute-purple));
+  box-shadow: 0 8px 20px rgba(255, 143, 171, .30);
+}
+.cute-hero-links a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(178, 138, 168, .25);
+}
+
+@media (prefers-color-scheme: dark) {
+  .main-inner > .cute-hero {
+    background: linear-gradient(120deg, rgba(42, 40, 56, .95), rgba(52, 38, 58, .92) 46%, rgba(30, 44, 60, .93));
+    border-color: rgba(255, 255, 255, .08);
+  }
+  .cute-hero-title { color: #f2e9f0; }
+  .cute-hero-desc { color: #b0a4b4; }
+  .cute-hello { color: #ffb3c9; background: rgba(255, 143, 171, .18); }
+  .cute-hero-links a { color: #ffc0d4; background: rgba(255, 255, 255, .08); border-color: rgba(255, 143, 171, .28); }
+}
+@media (max-width: 767px) {
+  .main-inner > .cute-hero { padding: 32px 24px; margin: 22px 0 26px; min-height: 0; border-radius: 24px; }
+  .cute-hero-inner { flex-direction: column; text-align: center; gap: 22px; }
+  .cute-hero-avatar { width: 96px; height: 96px; }
+  .cute-hero-title { font-size: 26px; }
+  .cute-hero-desc { font-size: 14px; }
+  .cute-hero-links { justify-content: center; }
+}
+
+/* ------------------------------------------------------------
+   10. 尊重系统的「减少动态效果」设置
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  body, .post-block, .cute-intro-mark, .site-author-image,
+  .cute-hero-avatar, .main-inner > .cute-hero { animation: none !important; transition: none !important; }
+  #cute-sakura, .cute-cursor { display: none !important; }
+}

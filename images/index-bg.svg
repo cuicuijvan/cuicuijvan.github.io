@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe3ee"/>
+      <stop offset=".33" stop-color="#fff0d9"/>
+      <stop offset=".66" stop-color="#dcf2ff"/>
+      <stop offset="1" stop-color="#ece2ff"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="420" fill="url(#sky)"/>
+
+  <circle cx="170" cy="80" r="125" fill="#ffb3cd" opacity=".34"/>
+  <circle cx="1430" cy="60" r="95" fill="#9fd8ff" opacity=".36"/>
+  <circle cx="760" cy="360" r="155" fill="#ffd79a" opacity=".28"/>
+  <circle cx="1130" cy="185" r="58" fill="#c9b6ff" opacity=".34"/>
+  <circle cx="420" cy="245" r="40" fill="#ffffff" opacity=".55"/>
+  <circle cx="980" cy="80" r="26" fill="#ffffff" opacity=".6"/>
+
+  <path d="M0 295 C 260 235, 430 355, 700 295 S 1150 225, 1600 295 L1600 420 L0 420 Z" fill="url(#wave)"/>
+  <path d="M0 345 C 300 285, 510 395, 830 335 S 1290 275, 1600 340 L1600 420 L0 420 Z" fill="#ffffff" opacity=".26"/>
+
+  <g fill="#ffffff" opacity=".75">
+    <circle cx="120" cy="205" r="6"/>
+    <circle cx="300" cy="120" r="4"/>
+    <circle cx="560" cy="70" r="7"/>
+    <circle cx="880" cy="200" r="5"/>
+    <circle cx="1245" cy="95" r="6"/>
+    <circle cx="1500" cy="230" r="5"/>
+    <circle cx="680" cy="165" r="4"/>
+  </g>
+
+  <g fill="none" stroke="#ff9dbb" stroke-width="7" stroke-linecap="round" opacity=".5">
+    <circle cx="1330" cy="300" r="16"/>
+    <circle cx="1330" cy="300" r="32"/>
+    <circle cx="1330" cy="300" r="48"/>
+  </g>
+  <g fill="none" stroke="#9ec9ff" stroke-width="6" stroke-linecap="round" opacity=".45">
+    <circle cx="250" cy="330" r="12"/>
+    <circle cx="250" cy="330" r="26"/>
+  </g>
+</svg>
